@@ -9,6 +9,19 @@ LFG_LIST_APPLICANT_LIST_UPDATED: newPendingEntry, newPendingEntryWithData
 LFG_LIST_APPLICANT_UPDATED: applicantID
 LFG_LIST_APPLICATION_STATUS_UPDATED: searchResultID, newStatus, oldStatus, groupName
 
+#API to look into: https://wowpedia.fandom.com/wiki/World_of_Warcraft_API#LFGList 
+C_LFGList.GetApplicantDungeonScoreForListing(localID, applicantIndex, activityID) : bestDungeonScoreForListing
+C_LFGList.GetApplicantInfo(applicantID) : applicantData - Returns status informations and custom message of an applicant.
+C_LFGList.GetApplicantMemberInfo(applicantID) - Returns info for an applicant.
+C_LFGList.GetApplicantMemberStats(applicantID) - Returns the Proving Grounds stats of an applicant.
+C_LFGList.GetApplicantPvpRatingInfoForListing(localID, applicantIndex, activityID) : pvpRatingInfo
+C_LFGList.GetApplicants() - Returns the list of applicants to your group.
+
+    applicantID
+        number - ascending number of applicants since creation of the activity returned by C_LFGList.GetApplicants()
+    memberIndex
+        number - iteration of C_LFGList.GetApplicants() argument #4 (numMembers)
+        
 framelistener:
 
 local EventFrame = CreateFrame("frame", "EventFrame")
