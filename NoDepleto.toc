@@ -1,0 +1,5 @@
+## Interface: 50793
+## Title: No Depleto
+## Notes: Ensures your LFG adventures are successful with efficient sorting of LGF list.
+## Version: 0.0.1
+NoDepleto.lua
