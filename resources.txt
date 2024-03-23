@@ -1,5 +1,6 @@
 wowhead guide: https://www.wowhead.com/guide/comprehensive-beginners-guide-for-wow-addon-coding-in-lua-5338#10-1-events
 event list: https://wowpedia.fandom.com/wiki/Events 
+amazing youtube list : https://www.youtube.com/watch?v=0Z3b0SJuvI0 
 
 wowLua addon : https://www.curseforge.com/wow/addons/wowlua
 wow useful command : /etrace /fstack
