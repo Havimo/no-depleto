@@ -2,4 +2,7 @@
 ## Title: No Depleto
 ## Notes: Ensures your LFG adventures are successful with efficient sorting of LGF list.
 ## Version: 0.0.1
+
+array_functions.lua
+config.lua
 NoDepleto.lua
