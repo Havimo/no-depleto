@@ -9,6 +9,18 @@ function Config:Toggle()
 	menu:SetShown(not menu:IsShown());
 end
 
+local function ScrollFrame_OnMouseWheel(self, delta)
+	local newValue = self:GetVerticalScroll() - (50 * 20);
+	
+	if (newValue < 0) then
+		newValue = 0;
+	elseif (newValue > self:GetVerticalScrollRange()) then
+		newValue = self:GetVerticalScrollRange();
+	end
+	
+	self:SetVerticalScroll(newValue);
+end
+
 function Config:CreateButton(point, relativeFrame, relativePoint, yOffset, text)
 	local btn = CreateFrame("Button", nil, UIConfig, "GameMenuButtonTemplate");
 	btn:SetPoint(point, relativeFrame, relativePoint, 0, yOffset);
@@ -19,27 +31,18 @@ function Config:CreateButton(point, relativeFrame, relativePoint, yOffset, text)
 	return btn;
 end
 
-function Config:ButtonSortingHandler(col)
-    function f()
-        string_to_print = core.Array.PrintArraytoString(self, core.Array.SortArray(self, player_list, col),0,"")
-        UIConfig.body:SetText(string_to_print)
-        return 1
-    end
-    return(f)
-end
-
 function DungeonClick(self)
     print('clicking score button')
     core.variables.sort_variable = 'dungeonScore'
     core.Array.SortArray(self, core.variables.player_list, "dungeonScore")
-    UIConfig.body:SetText(core.Array.PrintArraytoString(self, core.variables.player_list, 0, ""))
+    UIConfig.body.text:SetText(core.Array.PrintArraytoString(self, core.variables.player_list, 0, ""))
 end
 
 function iLvlClick(self)
     print('clicking ilvl button')
     core.variables.sort_variable = 'itemLevel'
     core.Array.SortArray(self, core.variables.player_list, "itemLevel")
-    UIConfig.body:SetText(core.Array.PrintArraytoString(self, core.variables.player_list, 0, ""))
+    UIConfig.body.text:SetText(core.Array.PrintArraytoString(self, core.variables.player_list, 0, ""))
 end
 
 function Config:CreateMenu()
@@ -48,13 +51,29 @@ function Config:CreateMenu()
 
     UIConfig:SetSize(500, 600)
     UIConfig:SetPoint("CENTER", UIParent, "CENTER")
+
+    
     UIConfig.title = UIConfig:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
     UIConfig.title:SetPoint("LEFT", UIConfig.TitleBg, "LEFT", 5, 0)
-    UIConfig.title:SetText("No Depleto - M+ List Filter")
+    UIConfig.title:SetText("No Depleto - M+ List Filter")	
 
+    UIConfig.ScrollFrame = CreateFrame("ScrollFrame", nil, UIConfig, "UIPanelScrollFrameTemplate");
+	UIConfig.ScrollFrame:SetPoint("TOPLEFT", UIConfig.Bg, "TOPLEFT", 4, -8);
+	UIConfig.ScrollFrame:SetPoint("BOTTOMRIGHT", UIConfig.Bg, "BOTTOMRIGHT", -3, 4);
+	UIConfig.ScrollFrame:SetClipsChildren(true);
+	--UIConfig.ScrollFrame:SetScript("OnMouseWheel", ScrollFrame_OnMouseWheel);
+	
+	UIConfig.ScrollFrame.ScrollBar:ClearAllPoints();
+    UIConfig.ScrollFrame.ScrollBar:SetPoint("TOPLEFT", UIConfig.ScrollFrame, "TOPRIGHT", -12, -18);
+    UIConfig.ScrollFrame.ScrollBar:SetPoint("BOTTOMRIGHT", UIConfig.ScrollFrame, "BOTTOMRIGHT", -7, 18);
 
-    UIConfig.body = UIConfig:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-    UIConfig.body:SetPoint("CENTER", UIConfig, "CENTER")
+    UIConfig.body = CreateFrame("Frame", nil, UIConfig.ScrollFrame)
+    UIConfig.body:SetSize(308,500)
+        
+    UIConfig.ScrollFrame:SetScrollChild(UIConfig.body)
+
+    UIConfig.body.text = UIConfig.body:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+    UIConfig.body.text:SetPoint("TOP", UIConfig.body, "TOP")
 
     -- SortDungeonScore Button:
     UIConfig.sortScoreBtn =  self:CreateButton("TOPLEFT", UIConfig, "TOP", 0,"Sort Score"); 

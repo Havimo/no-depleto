@@ -38,7 +38,7 @@ EventFrame:SetScript("OnEvent", function(self, event, ...)
             table.insert(var.player_list, player)
         end 
         core.Array.SortArray(self, var.player_list, var.sort_variable)
-        UIConfig.body:SetText(core.Array.PrintArraytoString(self, var.player_list, 0, ""))  
+        UIConfig.body.text:SetText(core.Array.PrintArraytoString(self, var.player_list, 0, ""))  
   
     end
 end)
