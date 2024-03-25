@@ -27,15 +27,18 @@ EventFrame:SetScript("OnEvent", function(self, event, ...)
         local applicants_list = C_LFGList.GetApplicants()
         var.player_list = {}
         for i = 1,#applicants_list,1 do
-            local name, _, localizedClass, _, itemLevel, _, _, _, _, assignedRole, _, dungeonScore, _ = C_LFGList.GetApplicantMemberInfo(applicants_list[i],1)
-            local player = {
-                ["name"] = name,
-                ["localizedClass"] = localizedClass,
-                ["itemLevel"] = itemLevel,
-                ["assignedRole"] = assignedRole,
-                ["dungeonScore"]  = dungeonScore
-            }
-            table.insert(var.player_list, player)
+            local player_table = C_LFGList.GetApplicantInfo(applicants_list[i])
+            for j = 1,player_table.numMembers,1 do
+                local name, _, localizedClass, _, itemLevel, _, _, _, _, assignedRole, _, dungeonScore, _ = C_LFGList.GetApplicantMemberInfo(player_table.applicantID, j)
+                local player = {
+                    ["name"] = name,
+                    ["localizedClass"] = localizedClass,
+                    ["itemLevel"] = itemLevel,
+                    ["assignedRole"] = assignedRole,
+                    ["dungeonScore"]  = dungeonScore
+                }
+                table.insert(var.player_list, player)
+            end
         end 
         core.Array.SortArray(self, var.player_list, var.sort_variable)
         UIConfig.body.text:SetText(core.Array.PrintArraytoString(self, var.player_list, 0, ""))  

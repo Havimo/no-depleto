@@ -1,5 +1,6 @@
 
 local _, core = ...;
+
 core.Array = {}; -- adds Array table to addon namespace
 
 local Array = core.Array;

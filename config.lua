@@ -31,18 +31,14 @@ function Config:CreateButton(point, relativeFrame, relativePoint, yOffset, text)
 	return btn;
 end
 
-function DungeonClick(self)
-    print('clicking score button')
-    core.variables.sort_variable = 'dungeonScore'
-    core.Array.SortArray(self, core.variables.player_list, "dungeonScore")
-    UIConfig.body.text:SetText(core.Array.PrintArraytoString(self, core.variables.player_list, 0, ""))
-end
-
-function iLvlClick(self)
-    print('clicking ilvl button')
-    core.variables.sort_variable = 'itemLevel'
-    core.Array.SortArray(self, core.variables.player_list, "itemLevel")
-    UIConfig.body.text:SetText(core.Array.PrintArraytoString(self, core.variables.player_list, 0, ""))
+function DispatchClick(self, col)
+    function a(self)
+        print('sorting by ' .. col)
+        core.variables.sort_variable = col
+        core.Array.SortArray(self, core.variables.player_list, col)
+        UIConfig.body.text:SetText(core.Array.PrintArraytoString(self, core.variables.player_list, 0, ""))
+    end
+    return a
 end
 
 function Config:CreateMenu()
@@ -80,8 +76,8 @@ function Config:CreateMenu()
     -- Sortilvl Button:
     UIConfig.sortiLvlBtn =  self:CreateButton("RIGHT", UIConfig.sortScoreBtn, "RIGHT", 50,"Sort iLvl"); 
 
-    UIConfig.sortScoreBtn:SetScript("OnClick",  DungeonClick)
-    UIConfig.sortiLvlBtn:SetScript("OnClick",  iLvlClick)
+    UIConfig.sortScoreBtn:SetScript("OnClick",  DispatchClick(self, 'dungeonScore'))
+    UIConfig.sortiLvlBtn:SetScript("OnClick",  DispatchClick(self, 'itemLevel'))
 
 	UIConfig:Hide();
 	return UIConfig;
